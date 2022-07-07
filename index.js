@@ -12,18 +12,17 @@ const main_routes = require('./Routes/main_routes');
 
 app.use(cors());
 require("dotenv").config();
-
+// app.use(express.bodyParser({limit: '50mb'}));
 
 /**
  * Body Parser URL ENCODED used for multipart enctype formdata
  */
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 app.use('/uploads', express.static('uploads'));
 /**
  * PARSING json requests
  */
-app.use(bodyParser.json());
-
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(main_routes);
 
 mongoose.connect('mongodb://127.0.0.1:27017/films', {

@@ -26,8 +26,7 @@ async function createUser(user) {
 }
 
 async function getSingleUser(user) {
-    return await User.findOne({email: user.email});
+    return await User.findOne({email: user});
 }
 
-module.exports = createUser;
-module.exports = getSingleUser;
+module.exports = {createUser,getSingleUser};

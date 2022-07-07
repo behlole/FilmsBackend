@@ -16,5 +16,8 @@ async function create(comment) {
     return await new Comment(comment).save();
 }
 
+async function getSingle(film_id) {
+    return await Comment.find({film_id: film_id});
+}
 
-module.exports = create;
+module.exports = {create, getSingle};

@@ -6,15 +6,16 @@ const filmSchemaValidation = require("../Validations/filmValidation");
 
 module.exports = {
     createFilm: async (req, res) => {
+
         try {
             req.body.image_url = req.file.path.split("\\").pop();
             req.body.genre = req.body.genre?.split(',');
             const Validation = filmSchemaValidation.validate(req.body);
             if (Validation.error) {
-                return res.send(sendErrorMessage(Validation.error.message));
+                return res.status(500).send(sendErrorMessage(Validation.error.message));
             }
             const film = await create(req.body);
-            return res.status(200).json({message: 'Film Created', film});
+            return res.status(200).send(sendSuccessMessage("Film Created", film))
         } catch (error) {
             return res.status(401).json({
                 message: 'Error at Create Film !',
@@ -25,13 +26,13 @@ module.exports = {
     getSingleFilm: async (req, res) => {
         try {
             let film = await getSingle(req.params.name);
-            if (!film) {
-                return res.send(sendErrorMessage("No Film Found"));
+            if (!film || film.length == 0) {
+                return res.status(500).send(sendErrorMessage("No Film Found"));
             } else {
                 return res.send(sendSuccessMessage("Film Found", film));
             }
         } catch (error) {
-            return res.send(sendErrorMessage(error.message));
+            return res.status(500).send(sendErrorMessage(error.message));
 
         }
     },
@@ -39,12 +40,12 @@ module.exports = {
         try {
             let films = await getAllFilms();
             if (films.length < 1) {
-                return res.send(sendErrorMessage("No Film Found"));
+                return res.status(500).send(sendErrorMessage("No Film Found"));
             } else {
                 return res.send(sendSuccessMessage("Films found", films));
             }
         } catch (error) {
-            return res.status(401).json({
+            return res.status(500).json({
                 message: 'Error at Show All Films !',
                 error: error.message,
             })

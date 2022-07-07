@@ -2,8 +2,8 @@ let mongoose = require('mongoose');
 
 const filmSchema = new mongoose.Schema(
     {
-        name: {type: String, required: true, maxLength: 30},
-        description: {type: String, required: true, maxLength: 100},
+        name: {type: String, required: true},
+        description: {type: String, required: true},
         release_date: {type: String, required: true},
         rating: {type: Number, required: true},
         ticket_price: {type: Number, required: true},
@@ -35,7 +35,7 @@ async function create(film) {
 }
 
 async function getSingle(name) {
-    return await Film.find({name: name});
+    return await Film.find({name: name}).limit(1);
 }
 
 module.exports = {getAllFilms, create, getSingle};

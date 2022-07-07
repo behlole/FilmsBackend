@@ -11,10 +11,11 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     },
 });
-const upload = multer({storage: storage, limits: {fieldSize: 1024 * 1024 * 5}});
+const upload = multer({storage: storage});
 
 router.get('/', films_controller.getFilms);
 router.get('/:name', films_controller.getSingleFilm);
+
 router.post('/', upload.single('image_url'), films_controller.createFilm);
 
 
