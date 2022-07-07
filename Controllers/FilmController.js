@@ -8,6 +8,7 @@ module.exports = {
     createFilm: async (req, res) => {
         try {
             req.body.image_url = req.file.path.split("\\").pop();
+            req.body.genre = req.body.genre?.split(',');
             const Validation = filmSchemaValidation.validate(req.body);
             if (Validation.error) {
                 return res.send(sendErrorMessage(Validation.error.message));
@@ -27,8 +28,6 @@ module.exports = {
             if (!film) {
                 return res.send(sendErrorMessage("No Film Found"));
             } else {
-                film.image_url = '/storage' + film.image_url;
-
                 return res.send(sendSuccessMessage("Film Found", film));
             }
         } catch (error) {

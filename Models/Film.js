@@ -1,5 +1,4 @@
 let mongoose = require('mongoose');
-const {getFilms} = require("../Controllers/FilmController");
 
 const filmSchema = new mongoose.Schema(
     {
